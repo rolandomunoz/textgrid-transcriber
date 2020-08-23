@@ -119,7 +119,6 @@ class TranscriptionPanel(wx.Panel):
   
   def about(self, event):
     info = wx.adv.AboutDialogInfo()
-    info.SetIcon(wx.Icon(os.path.join('icon', 'logo.png'), wx.BITMAP_TYPE_PNG))
     info.SetName('TextGrid Transcriber')
     info.SetVersion('0.1')
     info.SetCopyright('(C) 2020 Rolando Muñoz Aramburú')
