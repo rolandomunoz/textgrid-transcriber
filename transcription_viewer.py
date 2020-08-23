@@ -1,6 +1,7 @@
-import wx, wx.media
+import wx, wx.media, wx.adv
 import poll_praat
 import time
+import os
 
 class MainFrame(wx.Frame):
   
@@ -21,31 +22,33 @@ class TranscriptionPanel(wx.Panel):
     fileMenu = wx.Menu()
     menuBar.Append(fileMenu, "&File")
 
-    about_item = fileMenu.Append(wx.NewId(), 'About...')
-    quit_item = fileMenu.Append(wx.NewId(), 'Quit\tctrl+Q')
+    about_item = fileMenu.Append(wx.ID_ANY, 'About...')
+    preferences_item = fileMenu.Append(wx.ID_ANY, 'Preferences')
+    quit_item = fileMenu.Append(wx.ID_ANY, 'Quit\tctrl+Q')
 
     viewMenu = wx.Menu()
     menuBar.Append(viewMenu, "&View")
-    zoom_all_item = viewMenu.Append(wx.NewId(), 'Show all')
-    zoom_in_item = viewMenu.Append(wx.NewId(), 'Zoom in\tCtrl+I')
-    zoom_out_item = viewMenu.Append(wx.NewId(), 'Zoom out\tCtrl+O')
-    zoom_selection_item = viewMenu.Append(wx.NewId(), 'Zoom to selection\tCtrl+N')
-    zoom_back_item = viewMenu.Append(wx.NewId(), 'Zoom back\tCtrl+B')
+    zoom_all_item = viewMenu.Append(wx.ID_ANY, 'Show all')
+    zoom_in_item = viewMenu.Append(wx.ID_ANY, 'Zoom in\tCtrl+I')
+    zoom_out_item = viewMenu.Append(wx.ID_ANY, 'Zoom out\tCtrl+O')
+    zoom_selection_item = viewMenu.Append(wx.ID_ANY, 'Zoom to selection\tCtrl+N')
+    zoom_back_item = viewMenu.Append(wx.ID_ANY, 'Zoom back\tCtrl+B')
 
     viewMenu.AppendSeparator()
-    previous_tier_item = viewMenu.Append(wx.NewId(), 'Select previous tier\tAlt+Up')
-    next_tier_item = viewMenu.Append(wx.NewId(), 'Select next tier\tAlt+Down')
-    previous_interval_item = viewMenu.Append(wx.NewId(), 'Select previous interval\tAlt+Left')
-    next_interval_item = viewMenu.Append(wx.NewId(), 'Select next interval\tAlt+Right')
+    previous_tier_item = viewMenu.Append(wx.ID_ANY, 'Select previous tier\tAlt+Up')
+    next_tier_item = viewMenu.Append(wx.ID_ANY, 'Select next tier\tAlt+Down')
+    previous_interval_item = viewMenu.Append(wx.ID_ANY, 'Select previous interval\tAlt+Left')
+    next_interval_item = viewMenu.Append(wx.ID_ANY, 'Select next interval\tAlt+Right')
 
-    textMenu = wx.Menu()    
+    textMenu = wx.Menu()
     menuBar.Append(textMenu, "&Text")
-    pull_text_item = textMenu.Append(wx.NewId(), 'Refresh\tCtrl+R')
-    push_text_item = textMenu.Append(wx.NewId(), 'Push\tCtrl+P')
+    pull_text_item = textMenu.Append(wx.ID_ANY, 'Refresh\tCtrl+R')
+    push_text_item = textMenu.Append(wx.ID_ANY, 'Push\tCtrl+P')
     
     parent.SetMenuBar(menuBar)
 
     parent.Bind(wx.EVT_MENU, self.quit, quit_item)
+    parent.Bind(wx.EVT_MENU, self.preferences, preferences_item)
     parent.Bind(wx.EVT_MENU, self.about, about_item)
 
     parent.Bind(wx.EVT_MENU, self.zoom_all, zoom_all_item)
@@ -108,9 +111,22 @@ class TranscriptionPanel(wx.Panel):
     main_sizer.Fit(parent)
     self.Layout()
 
+  def preferences(self, event):
+    with wx.TextEntryDialog(self, 'Sendpraat directory', 'Text Entry') as dlg:
+      dlg.SetValue('sendpraat.exe')
+      if dlg.ShowModal() == wx.ID_OK:
+        print('hello')
+  
   def about(self, event):
-    wx.MessageBox('Written by Rolando Muñoz (Aug 20 2020)', 'About', wx.OK | wx.ICON_INFORMATION)
-    
+    info = wx.adv.AboutDialogInfo()
+    info.SetIcon(wx.Icon(os.path.join('icon', 'logo.png'), wx.BITMAP_TYPE_PNG))
+    info.SetName('TextGrid Transcriber')
+    info.SetVersion('0.1')
+    info.SetCopyright('(C) 2020 Rolando Muñoz Aramburú')
+    info.SetWebSite('https://github.com/rolandomunoz/textgrid-transcriber')
+    info.SetLicense('GNU General Public License v3.0')
+    wx.adv.AboutBox(info)
+  
   def quit(self, event):
     self.parent.Destroy()
 
