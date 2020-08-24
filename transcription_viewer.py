@@ -27,7 +27,7 @@ class TranscriptionPanel(wx.Panel):
 
     # Init variables
     self.first_play = False
-    
+
     # Menubar
     menuBar = wx.MenuBar()
     
@@ -55,7 +55,7 @@ class TranscriptionPanel(wx.Panel):
     textMenu = wx.Menu()
     menuBar.Append(textMenu, "&Text")
     pull_text_item = textMenu.Append(wx.ID_ANY, 'Pull\tCtrl+L')
-    push_text_item = textMenu.Append(wx.ID_ANY, 'Push\tCtrl+P')
+    push_text_item = textMenu.Append(wx.ID_ANY, 'Push\tCtrl+S')
     
     parent.SetMenuBar(menuBar)
 
@@ -76,7 +76,8 @@ class TranscriptionPanel(wx.Panel):
 
     parent.Bind(wx.EVT_MENU, self.pull_text, pull_text_item)
     parent.Bind(wx.EVT_MENU, self.push_text, push_text_item)
-        
+    parent.Bind(wx.EVT_ACTIVATE, self.pull_text)
+    
     # Shortcuts
     accel_tbl = wx.AcceleratorTable([
       #(wx.ACCEL_CTRL, ord('a'), zoom_all_item.GetId()),
@@ -90,7 +91,7 @@ class TranscriptionPanel(wx.Panel):
       (wx.ACCEL_ALT, wx.WXK_RIGHT, next_interval_item.GetId()),
       (wx.ACCEL_CTRL, ord('l'), pull_text_item.GetId()),
       (wx.ACCEL_CTRL, ord('q'), quit_item.GetId()),
-      (wx.ACCEL_CTRL, ord('p'), push_text_item.GetId())
+      (wx.ACCEL_CTRL, ord('s'), push_text_item.GetId())
     ])
     self.SetAcceleratorTable(accel_tbl)
     
@@ -127,6 +128,8 @@ class TranscriptionPanel(wx.Panel):
     self.SetSizer(main_sizer)
     main_sizer.Fit(parent)
     self.Layout()
+    
+    self._pull_text()
 
   def on_slider_scroll(self, event):
     obj = event.GetEventObject()
