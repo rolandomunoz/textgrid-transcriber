@@ -17,15 +17,5 @@ tmax = Get end of selection
 endeditor
 selectObject: tg
 
-interval_left = Get interval boundary from time: selected_tier, tmin
-interval_right= Get interval boundary from time: selected_tier, tmax
-
-if interval_left == 0 and interval_right == 0
-  interval_diff = interval_right - interval_left
-  if interval_diff != 1
-    label$ = ""
-  endif
-endif
-
 writeFile: log_file$, label$
 selectObject: objects#
