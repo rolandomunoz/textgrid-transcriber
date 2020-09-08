@@ -3,15 +3,20 @@ form Extract audio file
   real speed
 endform
 
+include check_error_message.praat
+
 objects# = selected#()
 tg = selected("TextGrid")
 editor: tg
-sd = Extract selected sound (time from 0)
+sd = nocheck noprogress Extract selected sound (time from 0)
+if sd == undefined
+  exitScript()
+endif
 endeditor
 
-new_sd = Lengthen (overlap-add): 75, 600, speed
-Scale peak: 0.99
-Save as WAV file: soundfile$
+new_sd = noprogress Lengthen (overlap-add): 75, 600, speed
+noprogress Scale peak: 0.99
+noprogress Save as WAV file: soundfile$
 
 removeObject: new_sd, sd
 selectObject: objects#

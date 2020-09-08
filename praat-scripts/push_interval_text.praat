@@ -2,6 +2,8 @@ form Push text
   sentence Text
 endform
 
+include check_error_message.praat
+
 objects# = selected#()
 
 tg = selected("TextGrid")
