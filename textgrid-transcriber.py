@@ -272,7 +272,7 @@ class TranscriptionPanel(wx.Panel):
     info.SetIcon(icon)
     info.SetName('TextGrid Transcriber')
     info.SetVersion('0.1')
-    info.SetCopyright('(C) 2020 Rolando Muñoz Aramburú')
+    info.SetCopyright('(C) 2020-2021 Rolando Muñoz Aramburú')
     info.SetWebSite('https://github.com/rolandomunoz/textgrid-transcriber')
     info.AddArtist('Aaron Torres Castillo')
     info.SetLicense('GNU General Public License v3.0')
